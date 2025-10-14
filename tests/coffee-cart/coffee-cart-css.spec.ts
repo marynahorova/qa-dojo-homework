@@ -42,7 +42,7 @@ test("MH-0003 Should skip discounted Mocha after adding 3 items", async ({
   await page.locator('[data-test="Espresso"]').click();
   await page.locator('[data-test="Espresso_Macchiato"]').click();
   await page.locator('[data-test="Cappuccino"]').click();
-  await page.locator(".buttons > button:nth-of-type(2)").click(); //This element does not have any unique attr
+  await page.getByRole("button", { name: "Nah, I'll skip." }).click();
   await expect(page.locator('[aria-label="Cart page"]')).toContainText(
     "cart (3)"
   );
@@ -52,17 +52,9 @@ test("MH-0004 Should update item quantity in cart", async ({ page }) => {
   await page.locator('[data-test="Espresso"]').click();
   await page.locator('[aria-label="Cart page"]').click();
   await expect(page.locator("#app")).toContainText("$10.00 x 1");
-  await page
-    .locator(
-      'ul[data-v-8965af83] > li.list-item .unit-controller > button[aria-label="Add one Espresso"]' // ??
-    )
-    .click();
+  await page.getByRole("button", { name: "Add one Espresso" }).click();
   await expect(page.locator("#app")).toContainText("$10.00 x 2");
-  await page
-    .locator(
-      'ul[data-v-8965af83] > li.list-item .unit-controller > button[aria-label="Remove one Espresso"]'
-    )
-    .click();
+  await page.getByRole("button", { name: "Remove one Espresso" }).click();
   await expect(page.locator("#app")).toContainText("$10.00 x 1");
 });
 
