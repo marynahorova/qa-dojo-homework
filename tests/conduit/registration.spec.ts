@@ -1,17 +1,19 @@
 import test, { expect } from "@playwright/test";
+import { fa, faker } from "@faker-js/faker";
 
 test.describe("Registration tests", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/register");
   });
 
-  const userName = "user" + Date.now();
-  const email = "test" + Date.now() + "@test.com";
+  const userName = faker.person.firstName();
+  const email = faker.internet.email();
+  const password = faker.internet.password();
 
   test("MH-0009 Should successfully register new user", async ({ page }) => {
     await page.getByRole("textbox", { name: "Username" }).fill(userName);
     await page.getByRole("textbox", { name: "Email" }).fill(email);
-    await page.getByRole("textbox", { name: "Password" }).fill("password");
+    await page.getByRole("textbox", { name: "Password" }).fill(password);
     await page.getByRole("button", { name: "Sign up" }).click();
     await expect(page.getByRole("link", { name: "Settings" })).toBeVisible();
   });
@@ -21,18 +23,19 @@ test.describe("Registration tests", () => {
   }) => {
     await page.getByRole("textbox", { name: "Username" }).fill(userName);
     await page.getByRole("textbox", { name: "Email" }).fill("email");
-    await page.getByRole("textbox", { name: "Password" }).fill("password");
+    await page.getByRole("textbox", { name: "Password" }).fill(password);
     await page.getByRole("button", { name: "Sign up" }).click();
-    await expect(page.getByText("email is invalid")).toBeVisible();
+    await expect(page.locator(".error-messages")).toHaveText(
+      "email is invalid"
+    );
   });
 
-  test("MH-0011 Should not register with already registered email", async ({
-    page,
-  }) => {
+  test("MH-0011 Should not register with empty email", async ({ page }) => {
     await page.getByRole("textbox", { name: "Username" }).fill(userName);
-    await page.getByRole("textbox", { name: "Email" }).fill("test@test.com");
     await page.getByRole("textbox", { name: "Password" }).fill("password");
     await page.getByRole("button", { name: "Sign up" }).click();
-    await expect(page.getByText("email is already taken")).toBeVisible();
+    await expect(page.locator(".error-messages")).toHaveText(
+      "email can't be blank"
+    );
   });
 });
