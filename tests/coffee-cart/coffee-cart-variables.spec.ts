@@ -2,8 +2,8 @@ import { test, expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
 test.describe("Coffe cart tests", { tag: "@regression" }, () => {
-  const userName = faker.person.firstName();
-  const email = faker.internet.email();
+  let userName;
+  let email;
 
   let espressoLocator;
   let appPageLocator;
@@ -26,6 +26,9 @@ test.describe("Coffe cart tests", { tag: "@regression" }, () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto("");
+
+    userName = faker.person.firstName();
+    email = faker.internet.email();
 
     espressoLocator = page.locator('[data-test="Espresso"]');
     appPageLocator = page.locator("#app");
