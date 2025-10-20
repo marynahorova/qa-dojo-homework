@@ -53,6 +53,14 @@ export default defineConfig({
         baseURL: "https://demo.learnwebdriverio.com",
       },
     },
+    {
+      name: "demo-qa",
+      testDir: "tests/demo-qa",
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: "https://demoqa.com",
+      },
+    },
   ],
 
   // {
