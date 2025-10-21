@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
-test.describe("Coffe cart tests", { tag: "@regression" }, () => {
+test.describe("Coffee cart tests", { tag: "@regression" }, () => {
   let userName;
   let email;
 
