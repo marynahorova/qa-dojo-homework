@@ -1,6 +1,8 @@
 import test, { expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
+const baseURL = "https://demoqa.com";
+
 test.describe("Form and UI component tests", { tag: "@regression" }, () => {
   let name: string;
   let email: string;
@@ -81,7 +83,7 @@ test.describe("Form and UI component tests", { tag: "@regression" }, () => {
   });
 
   test("MH-17 Should submit form", async ({ page }) => {
-    await page.goto("/text-box");
+    await page.goto(baseURL + "/text-box");
 
     await userNameInputLocator.fill(name);
     await userEmailInputLocator.fill(email);
@@ -96,7 +98,7 @@ test.describe("Form and UI component tests", { tag: "@regression" }, () => {
   });
 
   test("MH-18 Should select all radio buttons", async ({ page }) => {
-    await page.goto("/radio-button");
+    await page.goto(baseURL + "/radio-button");
     await yesRadioLocator.check({ force: true });
     await expect(successTextLocator).toContainText("Yes");
     await impressiveRadioLocator.check({ force: true });
@@ -104,7 +106,7 @@ test.describe("Form and UI component tests", { tag: "@regression" }, () => {
   });
 
   test("MH-19 Should select all checkboxes", async ({ page }) => {
-    await page.goto("/checkbox");
+    await page.goto(baseURL + "/checkbox");
     await expandHomeBtnLocator.click();
     await expandDesktopBtnLocator.click();
     await expandDocumentsBtnLocator.click();

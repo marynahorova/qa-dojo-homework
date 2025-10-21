@@ -61,6 +61,13 @@ export default defineConfig({
         baseURL: "https://demoqa.com",
       },
     },
+    {
+      name: "variables-hw",
+      testDir: "tests/variables-hw",
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+    },
   ],
 
   // {

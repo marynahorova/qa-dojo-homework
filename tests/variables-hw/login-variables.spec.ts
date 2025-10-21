@@ -1,6 +1,8 @@
 import test, { expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
+const baseURL = "https://demo.learnwebdriverio.com";
+
 test.describe("Login tests", { tag: "@regression" }, () => {
   const user = {
     userName: faker.person.firstName(),
@@ -33,15 +35,15 @@ test.describe("Login tests", { tag: "@regression" }, () => {
   test("MH-11 Should successfully login with new registered user", async ({
     page,
   }) => {
-    await page.goto("/register");
+    await page.goto(baseURL + "/register");
     await userNameInputLocator.fill(user.userName);
     await emailInputLocator.fill(user.email);
     await passwordInputLocator.fill(user.password);
     await signUpBtnLocator.click();
     await expect(settingsLinkLocator).toBeVisible();
-    await page.goto("/settings");
+    await page.goto(baseURL + "/settings");
     await logoutBtnLocator.click();
-    await page.goto("/login");
+    await page.goto(baseURL + "/login");
     await emailInputLocator.fill(user.email);
     await passwordInputLocator.fill(user.password);
     await signInBtnLocator.click();
@@ -50,13 +52,13 @@ test.describe("Login tests", { tag: "@regression" }, () => {
   });
 
   test("MH-12 Should not login with empty fields", async ({ page }) => {
-    await page.goto("/login");
+    await page.goto(baseURL + "/login");
     await signInBtnLocator.click();
     await expect(errorMessageLocator).toContainText("email can't be blank");
   });
 
   test("MH-13 Should not login with empty password", async ({ page }) => {
-    await page.goto("/login");
+    await page.goto(baseURL + "/login");
     await emailInputLocator.fill(user.email);
     await signInBtnLocator.click();
     await expect(errorMessageLocator).toContainText("password can't be blank");

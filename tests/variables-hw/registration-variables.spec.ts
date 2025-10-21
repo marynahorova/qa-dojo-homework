@@ -1,6 +1,8 @@
 import test, { expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
+const baseURL = "https://demo.learnwebdriverio.com";
+
 test.describe("Registration tests", { tag: "@regression" }, () => {
   let userName;
   let email;
@@ -14,7 +16,7 @@ test.describe("Registration tests", { tag: "@regression" }, () => {
   let settingsLinkLocator;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto("/register");
+    await page.goto(baseURL + "/register");
 
     userName = faker.person.firstName();
     email = faker.internet.email().toLowerCase();
