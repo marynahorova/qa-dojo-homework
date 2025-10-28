@@ -4,63 +4,26 @@ import { faker } from "@faker-js/faker";
 const baseURL = "https://coffee-cart.app/";
 
 test.describe("Coffee cart tests", { tag: "@regression" }, () => {
-  let userName;
-  let email;
-
-  let espressoLocator;
-  let appPageLocator;
-  let espressoMacchiatoLocator;
-  let cappuccinoLocator;
-  let cartPageLocator;
-  let cartLinkLocator;
-  let checkoutLocator;
-  let nameInputLocator;
-  let emailInputLocator;
-  let promoCheckboxLocator;
-  let submitBtnLocator;
-  let yesBtnLocator;
-  let noBtnLocator;
-  let addEspressoBtnLocator;
-  let removeEspressoBtnLocator;
-  let listLocator;
-  let removeAllEspressoLocator;
-  let paragraphLocator;
-
   test.beforeEach(async ({ page }) => {
     await page.goto(baseURL);
 
-    userName = faker.person.firstName();
-    email = faker.internet.email();
-
-    espressoLocator = page.locator('[data-test="Espresso"]');
-    appPageLocator = page.locator("#app");
-    espressoMacchiatoLocator = page.locator('[data-test="Espresso_Macchiato"]');
-    cappuccinoLocator = page.locator('[data-test="Cappuccino"]');
-    cartPageLocator = page.getByLabel("Cart page");
-    cartLinkLocator = page.getByRole("link", { name: "Cart page" });
-    checkoutLocator = page.locator('[data-test="checkout"]');
-    nameInputLocator = page.getByRole("textbox", { name: "Name" });
-    emailInputLocator = page.getByRole("textbox", { name: "Email" });
-    promoCheckboxLocator = page.getByRole("checkbox", {
-      name: "Promotion checkbox",
-    });
-    submitBtnLocator = page.getByRole("button", { name: "Submit" });
-    yesBtnLocator = page.getByRole("button", { name: "Yes, of course!" });
-    noBtnLocator = page.getByRole("button", { name: "Nah, I'll skip." });
-    addEspressoBtnLocator = page.getByRole("button", {
-      name: "Add one Espresso",
-    });
-    removeEspressoBtnLocator = page.getByRole("button", {
-      name: "Remove one Espresso",
-    });
-    listLocator = page.locator(".list");
-    removeAllEspressoLocator = page.getByRole("button", {
-      name: "Remove all Espresso",
-    });
-    paragraphLocator = page.getByRole("paragraph");
+    const userName = faker.person.firstName();
+    const email = faker.internet.email();
   });
 
   test("MH-6 Should order an Espresso", async ({ page }) => {
+    const userName = faker.person.firstName();
+    const email = faker.internet.email();
+    const espressoLocator = page.locator('[data-test="Espresso"]');
+    const checkoutLocator = page.locator('[data-test="checkout"]');
+    const nameInputLocator = page.getByRole("textbox", { name: "Name" });
+    const emailInputLocator = page.getByRole("textbox", { name: "Email" });
+    const promoCheckboxLocator = page.getByRole("checkbox", {
+      name: "Promotion checkbox",
+    });
+    const submitBtnLocator = page.getByRole("button", { name: "Submit" });
+    const appPageLocator = page.locator("#app");
+
     await espressoLocator.click();
     await checkoutLocator.click();
     await nameInputLocator.fill(userName);
@@ -75,6 +38,16 @@ test.describe("Coffee cart tests", { tag: "@regression" }, () => {
   test("MH-7 Should add discounted Mocha after adding 3 items when accepted", async ({
     page,
   }) => {
+    const espressoLocator = page.locator('[data-test="Espresso"]');
+    const espressoMacchiatoLocator = page.locator(
+      '[data-test="Espresso_Macchiato"]'
+    );
+    const cartPageLocator = page.getByLabel("Cart page");
+    const cappuccinoLocator = page.locator('[data-test="Cappuccino"]');
+    const appPageLocator = page.locator("#app");
+    const yesBtnLocator = page.getByRole("button", { name: "Yes, of course!" });
+    const cartLinkLocator = page.getByRole("link", { name: "Cart page" });
+
     await espressoLocator.click();
     await espressoMacchiatoLocator.click();
     await cappuccinoLocator.click();
@@ -93,6 +66,14 @@ test.describe("Coffee cart tests", { tag: "@regression" }, () => {
   test("MH-8 Should skip discounted Mocha after adding 3 items", async ({
     page,
   }) => {
+    const espressoLocator = page.locator('[data-test="Espresso"]');
+    const espressoMacchiatoLocator = page.locator(
+      '[data-test="Espresso_Macchiato"]'
+    );
+    const cappuccinoLocator = page.locator('[data-test="Cappuccino"]');
+    const noBtnLocator = page.getByRole("button", { name: "Nah, I'll skip." });
+    const cartPageLocator = page.getByLabel("Cart page");
+
     await espressoLocator.click();
     await espressoMacchiatoLocator.click();
     await cappuccinoLocator.click();
@@ -101,6 +82,16 @@ test.describe("Coffee cart tests", { tag: "@regression" }, () => {
   });
 
   test("MH-9 Should update item quantity in cart", async ({ page }) => {
+    const espressoLocator = page.locator('[data-test="Espresso"]');
+    const cartLinkLocator = page.getByRole("link", { name: "Cart page" });
+    const listLocator = page.locator(".list");
+    const addEspressoBtnLocator = page.getByRole("button", {
+      name: "Add one Espresso",
+    });
+    const removeEspressoBtnLocator = page.getByRole("button", {
+      name: "Remove one Espresso",
+    });
+
     await espressoLocator.click();
     await cartLinkLocator.click();
     await expect(listLocator).toContainText("$10.00 x 1");
@@ -111,6 +102,13 @@ test.describe("Coffee cart tests", { tag: "@regression" }, () => {
   });
 
   test("MH-10 Should remove item from cart", async ({ page }) => {
+    const espressoLocator = page.locator('[data-test="Espresso"]');
+    const cartPageLocator = page.getByLabel("Cart page");
+    const removeAllEspressoLocator = page.getByRole("button", {
+      name: "Remove all Espresso",
+    });
+    const paragraphLocator = page.getByRole("paragraph");
+
     await espressoLocator.click();
     await cartPageLocator.click();
     await removeAllEspressoLocator.click();

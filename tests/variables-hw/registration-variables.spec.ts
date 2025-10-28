@@ -4,33 +4,24 @@ import { faker } from "@faker-js/faker";
 const baseURL = "https://demo.learnwebdriverio.com";
 
 test.describe("Registration tests", { tag: "@regression" }, () => {
-  let userName;
-  let email;
-  let password;
-
-  let userNameInputLocator;
-  let emailInputLocator;
-  let passwordInputLocator;
-  let signUpBtnLocator;
-  let errorMessageLocator;
-  let settingsLinkLocator;
-
+  const userName = faker.person.firstName();
+  const email = faker.internet.email().toLowerCase();
+  const password = faker.internet.password();
   test.beforeEach(async ({ page }) => {
     await page.goto(baseURL + "/register");
-
-    userName = faker.person.firstName();
-    email = faker.internet.email().toLowerCase();
-    password = faker.internet.password();
-
-    userNameInputLocator = page.getByRole("textbox", { name: "Username" });
-    emailInputLocator = page.getByRole("textbox", { name: "Email" });
-    passwordInputLocator = page.getByRole("textbox", { name: "Password" });
-    signUpBtnLocator = page.getByRole("button", { name: "Sign up" });
-    errorMessageLocator = page.locator(".error-messages");
-    settingsLinkLocator = page.getByRole("link", { name: "Settings" });
   });
 
-  test("MH-14 Should successfully register new user", async () => {
+  test("MH-14 Should successfully register new user", async ({ page }) => {
+    const userNameInputLocator = page.getByRole("textbox", {
+      name: "Username",
+    });
+    const emailInputLocator = page.getByRole("textbox", { name: "Email" });
+    const passwordInputLocator = page.getByRole("textbox", {
+      name: "Password",
+    });
+    const signUpBtnLocator = page.getByRole("button", { name: "Sign up" });
+    const settingsLinkLocator = page.getByRole("link", { name: "Settings" });
+
     await userNameInputLocator.fill(userName);
     await emailInputLocator.fill(email);
     await passwordInputLocator.fill(password);
@@ -38,7 +29,19 @@ test.describe("Registration tests", { tag: "@regression" }, () => {
     await expect(settingsLinkLocator).toBeVisible();
   });
 
-  test("MH-15 Should not register with invalid email format", async () => {
+  test("MH-15 Should not register with invalid email format", async ({
+    page,
+  }) => {
+    const userNameInputLocator = page.getByRole("textbox", {
+      name: "Username",
+    });
+    const emailInputLocator = page.getByRole("textbox", { name: "Email" });
+    const passwordInputLocator = page.getByRole("textbox", {
+      name: "Password",
+    });
+    const signUpBtnLocator = page.getByRole("button", { name: "Sign up" });
+    const errorMessageLocator = page.locator(".error-messages");
+
     await userNameInputLocator.fill(userName);
     await emailInputLocator.fill("email");
     await passwordInputLocator.fill(password);
@@ -46,7 +49,16 @@ test.describe("Registration tests", { tag: "@regression" }, () => {
     await expect(errorMessageLocator).toHaveText("email is invalid");
   });
 
-  test("MH-16 Should not register with empty email", async () => {
+  test("MH-16 Should not register with empty email", async ({ page }) => {
+    const userNameInputLocator = page.getByRole("textbox", {
+      name: "Username",
+    });
+    const passwordInputLocator = page.getByRole("textbox", {
+      name: "Password",
+    });
+    const signUpBtnLocator = page.getByRole("button", { name: "Sign up" });
+    const errorMessageLocator = page.locator(".error-messages");
+
     await userNameInputLocator.fill(userName);
     await passwordInputLocator.fill(password);
     await signUpBtnLocator.click();

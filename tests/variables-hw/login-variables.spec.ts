@@ -10,31 +10,21 @@ test.describe("Login tests", { tag: "@regression" }, () => {
     password: faker.internet.password(),
   };
 
-  let emailInputLocator;
-  let passwordInputLocator;
-  let signInBtnLocator;
-  let signUpBtnLocator;
-  let errorMessageLocator;
-  let userNameInputLocator;
-  let settingsLinkLocator;
-  let logoutBtnLocator;
-
-  test.beforeEach(async ({ page }) => {
-    emailInputLocator = page.getByRole("textbox", { name: "Email" });
-    passwordInputLocator = page.getByRole("textbox", { name: "Password" });
-    signInBtnLocator = page.getByRole("button", { name: "Sign in" });
-    signUpBtnLocator = page.getByRole("button", { name: "Sign up" });
-    errorMessageLocator = page.locator(".error-messages");
-    userNameInputLocator = page.getByRole("textbox", {
-      name: "Username",
-    });
-    settingsLinkLocator = page.getByRole("link", { name: "Settings" });
-    logoutBtnLocator = page.getByText("Or click here to logout.");
-  });
-
   test("MH-11 Should successfully login with new registered user", async ({
     page,
   }) => {
+    const emailInputLocator = page.getByRole("textbox", { name: "Email" });
+    const passwordInputLocator = page.getByRole("textbox", {
+      name: "Password",
+    });
+    const signInBtnLocator = page.getByRole("button", { name: "Sign in" });
+    const signUpBtnLocator = page.getByRole("button", { name: "Sign up" });
+    const userNameInputLocator = page.getByRole("textbox", {
+      name: "Username",
+    });
+    const settingsLinkLocator = page.getByRole("link", { name: "Settings" });
+    const logoutBtnLocator = page.getByText("Or click here to logout.");
+
     await page.goto(baseURL + "/register");
     await userNameInputLocator.fill(user.userName);
     await emailInputLocator.fill(user.email);
@@ -52,12 +42,23 @@ test.describe("Login tests", { tag: "@regression" }, () => {
   });
 
   test("MH-12 Should not login with empty fields", async ({ page }) => {
+    const emailInputLocator = page.getByRole("textbox", { name: "Email" });
+    const passwordInputLocator = page.getByRole("textbox", {
+      name: "Password",
+    });
+    const signInBtnLocator = page.getByRole("button", { name: "Sign in" });
+    const errorMessageLocator = page.locator(".error-messages");
+
     await page.goto(baseURL + "/login");
     await signInBtnLocator.click();
     await expect(errorMessageLocator).toContainText("email can't be blank");
   });
 
   test("MH-13 Should not login with empty password", async ({ page }) => {
+    const emailInputLocator = page.getByRole("textbox", { name: "Email" });
+    const signInBtnLocator = page.getByRole("button", { name: "Sign in" });
+    const errorMessageLocator = page.locator(".error-messages");
+
     await page.goto(baseURL + "/login");
     await emailInputLocator.fill(user.email);
     await signInBtnLocator.click();
