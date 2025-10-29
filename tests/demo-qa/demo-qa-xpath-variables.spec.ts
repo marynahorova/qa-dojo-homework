@@ -1,8 +1,6 @@
 import test, { expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
-const baseURL = "https://demoqa.com";
-
 test.describe("Form and UI component tests", { tag: "@regression" }, () => {
   const name = faker.person.firstName();
   const email = faker.internet.email().toLowerCase();
@@ -29,7 +27,7 @@ test.describe("Form and UI component tests", { tag: "@regression" }, () => {
       '//p[@id="permanentAddress"]'
     );
 
-    await page.goto(baseURL + "/text-box");
+    await page.goto("/text-box");
     await userNameInputLocator.fill(name);
     await userEmailInputLocator.fill(email);
     await currentAddressTextareaLocator.fill(currentAddress);
@@ -49,7 +47,7 @@ test.describe("Form and UI component tests", { tag: "@regression" }, () => {
       "//input[@id='impressiveRadio']"
     );
 
-    await page.goto(baseURL + "/radio-button");
+    await page.goto("/radio-button");
     await yesRadioLocator.check({ force: true });
     await expect(successTextLocator).toContainText("Yes");
     await impressiveRadioLocator.check({ force: true });
@@ -80,7 +78,7 @@ test.describe("Form and UI component tests", { tag: "@regression" }, () => {
     );
     const resultBlockLocator = page.locator("//*[@id='result']");
 
-    await page.goto(baseURL + "/checkbox");
+    await page.goto("/checkbox");
     await expandHomeBtnLocator.click();
     await expandDesktopBtnLocator.click();
     await expandDocumentsBtnLocator.click();

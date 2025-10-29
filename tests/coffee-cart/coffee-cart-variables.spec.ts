@@ -1,11 +1,9 @@
 import { test, expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
-const baseURL = "https://coffee-cart.app/";
-
 test.describe("Coffee cart tests", { tag: "@regression" }, () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(baseURL);
+    await page.goto("");
 
     const userName = faker.person.firstName();
     const email = faker.internet.email();

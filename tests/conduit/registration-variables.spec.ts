@@ -1,14 +1,12 @@
 import test, { expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
-const baseURL = "https://demo.learnwebdriverio.com";
-
 test.describe("Registration tests", { tag: "@regression" }, () => {
   const userName = faker.person.firstName();
   const email = faker.internet.email().toLowerCase();
   const password = faker.internet.password();
   test.beforeEach(async ({ page }) => {
-    await page.goto(baseURL + "/register");
+    await page.goto("/register");
   });
 
   test("MH-14 Should successfully register new user", async ({ page }) => {
